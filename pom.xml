@@ -87,7 +87,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/software.amazon.awssdk/ec2 -->
         <!-- https://aws.amazon.com/sdk-for-java/ -->
@@ -108,6 +108,25 @@
 
     <build>
         <plugins>
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+            <!-- https://maven.apache.org/plugins/maven-compiler-plugin/ -->
+            <!-- The Compiler Plugin is used to compile the sources of your project -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
             <!-- https://mvnrepository.com/artifact/org.gaul/modernizer-maven-plugin -->
             <!-- https://github.com/gaul/modernizer-maven-plugin -->
             <!--Modernizer Maven Plugin detects uses of legacy APIs which modern Java versions supersede.

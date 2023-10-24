@@ -19,7 +19,7 @@ import java.util.Optional;
 @Log4j2
 @UtilityClass
 public final class AwsEc2Utils {
-    private final Region awsRegion = Region.US_EAST_1;
+    private static final Region awsRegion = Region.US_EAST_1;
     private static final String MESSAGE_GROUP_ID_CANNOT_BE_NULL_OR_BLANK = "groupId cannot be null or blank.";
     public static final String MESSAGE_RULE_DESCRIPTION_CANNOT_BE_NULL_OR_BLANK = "ruleDescription cannot be null or blank.";
     public static final String MESSAGE_INSTANCE_ID_CANNOT_BE_NULL_OR_BLANK = "instanceId cannot be null or blank.";

@@ -10,7 +10,7 @@
 
     <name>aws-utils</name>
     <description>A few AWS EC2 helpers for the Java AWS SDK</description>
-    <url>url</url>
+    <url>https://github.com/adriandeleon/aws-utils</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

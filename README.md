@@ -5,7 +5,14 @@
 
 Latest version: 1.0.0
 
-To include it in your project, add this to your `pom.xml` file:
+This library requieres Java SDK 21 to compile.
+
+
+To include it in your project, first download this repo and run:
+```shell
+mvn install
+```
+Then you can add this to your `pom.xml` file:
 ```xml
    <dependency>
       <groupId>me.adriandeleon</groupId>

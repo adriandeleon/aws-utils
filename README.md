@@ -3,26 +3,19 @@
 # AwsUtils
 ## A few AWS EC2 helpers for the Java AWS SDK.
 
-Latest version: 1.0.0
+Latest version: 1.0.1
 
-This library requieres Java SDK 21 to compile.
+This library requieres Java [JDK 21](https://jdk.java.net/21/) to compile.
 
+### Helper methods
 
-To include it in your project, first download this repo and run:
-```shell
-mvn install
-```
-Then you can add this to your `pom.xml` file:
-```xml
-   <dependency>
-      <groupId>me.adriandeleon</groupId>
-      <artifactId>aws-utils</artifactId>
-      <version>1.0.0</version>
-   </dependency>
-```
+This library includes a few helpers/wrappers like:
+- Open ports to an instance.
+- Get an instance by tag name.
+- List instances by tag name.
+- Add/update/remove rules for a security group.
 
-
-This library includes a few helpers/wrappers for the Java AWS SDK like: 
+#### Methods:
 
 - `openEC2Ports(String,String):void` Open an EC2 instance firewall (ip range, protocols) for our IP.
 - `getInstance(String):<Instance>`  Get an EC2 instance by instance Id.
@@ -38,9 +31,84 @@ This library includes a few helpers/wrappers for the Java AWS SDK like:
 
 ### Examples
 
-An example: 
+An example:
 
-```
+```java
   //Open the firewall to our IP.
   AwsUtils.openEC2Ports("instance-name", "rule-name");
 ```
+
+### Installation.
+
+To include it in your project, there are two ways: local download, or add the my Github Packages maven repo to your m2 settings file.
+
+### Local download.
+ clone this repo and then and run:
+
+```shell
+mvn install
+```
+
+This will install the jar in your local maven repository.
+
+### Remote GitHub Packages maven repository.
+
+add the following configuration to your local maven `settings.xml` file (usually located in `$HOME/.m2/settings.xml`)
+
+```xml
+    <servers>
+        <server>
+            <id>github-public</id>
+            <username>adriandeleon</username>
+            <!-- Public token with `read:packages` scope -->
+            <password>
+                &#103;&#104;&#112;&#95;&#54;&#121;&#83;&#120;&#86;&#101;&#106;&#80;&#97;&#88;&#88;&#81;&#85;&#48;&#51;&#116;&#110;&#50;&#97;&#52;&#70;&#74;&#84;&#67;&#102;&#97;&#104;&#77;&#107;&#82;&#49;&#81;&#86;&#83;&#106;&#97;
+            </password>
+        </server>
+    </servers>
+```
+### Adding the jar to your `pom.xml`
+
+Once you added the jar to your local maven repository or added the remote Github Packages maven repo, then you can add this to your `pom.xml` file:
+
+First, add this to your `<repository>` stanza:
+
+```xml
+    <repositories>
+        <!--https://github.com/orgs/community/discussions/25629#discussioncomment-3248525-->
+        <!--https://github.com/orgs/community/discussions/26634-->
+            <repository>
+                <id>github-public</id>
+                <name>adriandeleon's Github Packages maven repository</name>
+                <url>https://maven.pkg.github.com/adriandeleon/*</url>
+                <snapshots>
+                    <enabled>false</enabled>
+                </snapshots>
+            </repository>
+    </repositories>
+```
+
+Then you can add the dependency to your `<dependencies>` stanza:
+
+```xml
+   <dependency>
+      <groupId>me.adriandeleon</groupId>
+      <artifactId>aws-utils</artifactId>
+      <version>1.0.0</version>
+   </dependency>
+```
+
+Note:
+You should have a valid[ `$HOME/.aws/config`](https://docs.aws.amazon.com/sdkref/latest/guide/file-location.html) file
+for this library to work.
+
+
+### Running the integration tests.
+
+If you plan on running the integration tests, you will need to set a valid config file (see above) and export the following environment variables first:
+
+```shell
+AWSUTILS_TEST_VALID_INSTANCE_TAG_NAME
+AWSUTILS_TEST_VALID_INSTANCE_ID
+```
+These should correspond to a valid instance tag name and a valid instanceId on the AWS account that you will run the integration tests against.

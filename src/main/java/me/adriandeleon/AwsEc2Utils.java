@@ -14,17 +14,33 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * AwsEc2Utils: A utility class for managing AWS resources. (We should make a library out of this code.)
+ * AwsEc2Utils: A utility class for managing AWS resources.
  */
 @Log4j2
 @UtilityClass
 public final class AwsEc2Utils {
-    private static final Region awsRegion = Region.US_EAST_1;
+    private static final Region awsRegion = getRegion();
+
     private static final String MESSAGE_GROUP_ID_CANNOT_BE_NULL_OR_BLANK = "groupId cannot be null or blank.";
+    /**
+     * The constant MESSAGE_RULE_DESCRIPTION_CANNOT_BE_NULL_OR_BLANK.
+     */
     public static final String MESSAGE_RULE_DESCRIPTION_CANNOT_BE_NULL_OR_BLANK = "ruleDescription cannot be null or blank.";
+    /**
+     * The constant MESSAGE_INSTANCE_ID_CANNOT_BE_NULL_OR_BLANK.
+     */
     public static final String MESSAGE_INSTANCE_ID_CANNOT_BE_NULL_OR_BLANK = "instanceId cannot be null or blank.";
+    /**
+     * The constant MESSAGE_TAG_NAME_CANNOT_BE_NULL_OR_BLANK.
+     */
     public static final String MESSAGE_TAG_NAME_CANNOT_BE_NULL_OR_BLANK = "tagName cannot be null or blank.";
+    /**
+     * The constant MESSAGE_PROTOCOL_CANNOT_BE_NULL_OR_BLANK.
+     */
     public static final String MESSAGE_PROTOCOL_CANNOT_BE_NULL_OR_BLANK = "protocol cannot be null or blank.";
+    /**
+     * The constant MESSAGE_IP_CANNOT_BE_NULL_OR_BLANK.
+     */
     public static final String MESSAGE_IP_CANNOT_BE_NULL_OR_BLANK = "ip cannot be null or blank.";
 
     /**
@@ -366,5 +382,19 @@ public final class AwsEc2Utils {
      */
     private static String getIpFromAws(){
         return Unirest.get("https://checkip.amazonaws.com/").asString().getBody().trim();
+    }
+
+    /**
+     * Gets region.
+     *
+     * @return the region
+     */
+    private static Region getRegion() {
+        try {
+            return Region.of(PropertiesUtils.getPropertyValue(PropertiesUtils.PROPERTY_KEY_AWS_REGION));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }

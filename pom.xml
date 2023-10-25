@@ -127,10 +127,22 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
+            <!-- https://maven.apache.org/plugins/maven-javadoc-plugin -->
+            <!-- The Javadoc Plugin generates javadocs using the Javadoc tool. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <show>private</show>
+                    <nohelp>true</nohelp>
+                </configuration>
+            </plugin>
             <!-- https://mvnrepository.com/artifact/org.gaul/modernizer-maven-plugin -->
             <!-- https://github.com/gaul/modernizer-maven-plugin -->
-            <!--Modernizer Maven Plugin detects uses of legacy APIs which modern Java versions supersede.
-                These modern APIs are often more performant, safer, and idiomatic than the legacy equivalents.-->
+            <!-- Modernizer Maven Plugin detects uses of legacy APIs which modern Java versions supersede.
+                 These modern APIs are often more performant, safer, and idiomatic than the legacy equivalents.-->
             <plugin>
                 <groupId>org.gaul</groupId>
                 <artifactId>modernizer-maven-plugin</artifactId>
@@ -186,6 +198,15 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub adriandeleon Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/adriandeleon/aws-utils</url>
+        </repository>
+    </distributionManagement>
 
 </project>

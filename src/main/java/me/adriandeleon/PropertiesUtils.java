@@ -43,7 +43,6 @@ public class PropertiesUtils {
         //Check the environment variables first. The env variable should be all caps and separated by `_`.
         final String envVariableProperty = System.getenv(key);
 
-        //If we can't find the environment variable, get the value from the application.properties file.
         if(envVariableProperty == null || envVariableProperty.isEmpty()){
             throw new Exception(MESSAGE_COULD_NOT_FOUND_ENV_VARIABLE + key);
         }else{

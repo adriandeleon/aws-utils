@@ -9,6 +9,10 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.*;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,13 +53,19 @@ public final class AwsEc2Utils {
      * @param tagName         the tag name for our EC2 instance resource.
      * @param ruleDescription the rule description.
      */
-    public static void openEC2Ports(final String tagName, final String ruleDescription) {
+    public static void openEC2Ports(final String tagName, final String ruleDescription) throws URISyntaxException, IOException {
         Validate.notBlank(tagName, MESSAGE_TAG_NAME_CANNOT_BE_NULL_OR_BLANK);
         Validate.notBlank(ruleDescription, MESSAGE_RULE_DESCRIPTION_CANNOT_BE_NULL_OR_BLANK);
 
-        //TODO: We should check if your IP already has access to avoid opening the ports again.
+        final String myIp = AwsEc2Utils.getIpFromAws();
 
-        System.out.println("Opening server: " + tagName + " ports to our IP: " + AwsEc2Utils.getIpFromAws());
+        //Check if your IP already has access to avoid opening the ports again.
+        if (canReachHost(getPublicIpFromInstanceByName(tagName))) {
+            System.out.println("Our IP: " + myIp + " already has access to server: " + tagName);
+            return;
+        }
+
+        System.out.println("Opening server: " + tagName + " ports to our IP: " + myIp);
         try {
             updateSecurityGroupRuleWithMyIp(tagName, ruleDescription);
         } catch (Exception e) {
@@ -97,6 +107,27 @@ public final class AwsEc2Utils {
             }
         }
         return List.copyOf(instanceIdList);
+    }
+
+    /**
+     * Gets public ip from instance by tagName.
+     *
+     * @param tagName the tag name.
+     * @return the public ip from the instance by name.
+     */
+    public static String getPublicIpFromInstanceByName(final String tagName) {
+        return getPublicIpFromInstance(getListOfInstanceNames(tagName).getFirst());
+    }
+
+    /**
+     * Gets public ip from instance.
+     *
+     * @param instanceId the instance id.
+     * @return the public ip from the instance.
+     */
+    public static String getPublicIpFromInstance(final String instanceId) {
+         final Instance instance = getInstance(instanceId).orElseThrow(IllegalArgumentException::new);
+         return instance.publicIpAddress();
     }
 
     /**
@@ -396,5 +427,12 @@ public final class AwsEc2Utils {
             log.error(e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    private static boolean canReachHost(final String url) throws URISyntaxException, IOException {
+        Validate.notBlank(url, "url cannot be null or blank.");
+
+        final URI uri = new URI(url);
+        return InetAddress.getByName(uri.getHost()).isReachable(10000);
     }
 }

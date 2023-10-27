@@ -5,6 +5,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import software.amazon.awssdk.services.ec2.model.Instance;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +36,8 @@ class AwsEc2UtilsIntegrationTest {
     }
 
     @Test
-    void openEC2Ports() {
+    void openEC2Ports() throws URISyntaxException, IOException {
+        AwsEc2Utils.openEC2Ports("Bitnami-GitLab-RepoServer", "Adrian De Leon");
     }
 
     @ParameterizedTest

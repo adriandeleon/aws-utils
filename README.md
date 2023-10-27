@@ -4,7 +4,7 @@
 
 ## A few AWS EC2 helpers for the Java AWS SDK.
 
-Latest version: 1.0.1
+Latest version: 1.0.2
 
 This library requieres Java [JDK 21](https://jdk.java.net/21/) to compile.
 
@@ -109,7 +109,7 @@ Then you can add the dependency to your `<dependencies>` stanza:
 <dependency>
     <groupId>me.adriandeleon</groupId>
     <artifactId>aws-utils</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 

@@ -65,7 +65,7 @@ public final class AwsEc2Utils {
             return;
         }
 
-        System.out.println("Opening server: " + tagName + " ports to our IP: " + myIp);
+        System.out.println("Opening server: " + tagName + " ports to our IP: " + myIp + "for ruleDescription: " + ruleDescription);
         try {
             updateSecurityGroupRuleWithMyIp(tagName, ruleDescription);
         } catch (Exception e) {

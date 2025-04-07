@@ -4,7 +4,7 @@
 
 ## A few AWS EC2 helpers for the Java AWS SDK.
 
-Latest version: 1.0.2
+Latest version: 1.1.0
 
 This library requieres Java [JDK 21](https://jdk.java.net/21/) to compile.
 
